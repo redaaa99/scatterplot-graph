@@ -1,0 +1,29 @@
+body{
+    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/c9/b7/60/c9b7600c6075039fddb6e1e1993daede.gif");
+    background-color: #333;
+}
+
+.content{
+    width: 1100px;
+    height :650px;
+    margin: 20px auto;
+    background-color: beige;
+    text-align: center;
+    border-radius: 30px;
+    box-shadow: 1px 1px 20px black;
+}
+
+#text{
+    font-family: 'Raleway', sans-serif;
+    font-size: 25pt;
+    padding-top: 30px;
+}
+
+.chart{
+    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/c9/b7/60/c9b7600c6075039fddb6e1e1993daede.gif");
+    box-shadow: 1px 1px 20px black;
+    width: 1000px;
+    padding-left: 30px;
+    padding-top: 20px;
+    border-radius: 0px;
+}
