@@ -1,5 +1,6 @@
 body{
-    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/c9/b7/60/c9b7600c6075039fddb6e1e1993daede.gif");
+    background-image: url("https://c1.staticflickr.com/5/4091/5187581233_2831579ffe_b.jpg");
+    background-size : cover;
     background-color: #333;
 }
 
@@ -7,7 +8,7 @@ body{
     width: 1100px;
     height :650px;
     margin: 20px auto;
-    background-color: beige;
+    background-color: rgba(255, 255, 255, 0.6);
     text-align: center;
     border-radius: 30px;
     box-shadow: 1px 1px 20px black;
@@ -16,14 +17,5 @@ body{
 #text{
     font-family: 'Raleway', sans-serif;
     font-size: 25pt;
-    padding-top: 30px;
-}
-
-.chart{
-    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/c9/b7/60/c9b7600c6075039fddb6e1e1993daede.gif");
-    box-shadow: 1px 1px 20px black;
-    width: 1000px;
-    padding-left: 30px;
-    padding-top: 20px;
-    border-radius: 0px;
+    padding-top: 10px;
 }

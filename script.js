@@ -1,105 +1,80 @@
-var url =  "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+var url =  "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json";
 
-var allData = [];
 
 $.getJSON(url, function( response) {
 
-    //console.log(response.data);
-    var gdp=[];
-    var quart=[];
-    for(var i=0;i<response.data.length;i++)
+    var dataset = [];
+    var max=0;
+    var min=5000;
+    for(var i=0;i<response.length;i++)
     {
-        quart.push(response.data[i][0]);
-        gdp.push(response.data[i][1]);
+        dataset.push(new Array(4));
+        dataset[i][0] = response[i].Place;
+        dataset[i][1] = response[i].Seconds;
+        dataset[i][2] = response[i].Name;
+        dataset[i][3] = response[i].Doping;
+        if(max<response[i].Seconds)
+        {
+            max = response[i].Seconds;
+        }
+        if(min>response[i].Seconds)
+        {
+            min = response[i].Seconds;
+        }
     }
 
+    console.log(min);
 
-    var barWidth = 3.5,
-        height = 420;
+    var w = 1000;
+    var h = 1000;
+
+    var svg = d3.select(".container")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
 
 
-    var xScale = d3.scaleTime()
-        .domain([new Date(1947,0,1),new Date(2015,0,1)])
-        .range([0, barWidth * gdp.length]);
+
+    var x = d3.scaleLinear()
+        .domain([max, min])
+        .range([100, w-200]);
+
 
     var y = d3.scaleLinear()
-        .domain([0, d3.max(gdp)])
-        .range([height, 0]);
+        .domain([1, 35])
+        .range([0, 400]);
 
-    var xAxis = d3.axisBottom()
-        .scale(xScale);
+    var xAxis = d3.axis;
 
-
-    var yy = d3.scaleLinear()
-        .domain([0, d3.max(gdp)/1000])
-        .range([height, 0]);
-
-    var yAxis = d3.axisLeft()
-        .scale(yy);
-
-    var colors = d3.scaleLinear()
-        .domain([0,d3.max(gdp)])
-        .range(["#000000", "#00ff01"]);
-
-    var chart = d3.select(".chart")
-        .attr("width", barWidth * gdp.length+30)
-        .attr("height", height+40);
-
-
-    var bar = chart.selectAll("g")
-
-        .data(gdp)
-        .enter().append("g")
-        .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
-
-
-
-    d3.select(".chart").selectAll(".xaxis text")  // select all the text elements for the xaxis
-        .attr("transform", function(d) {
-            return "translate(" + height*-2 + "," +height + ")rotate(-45)";
+    svg.selectAll("circle")
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+            return x(d[1])+5;
+        })
+        .attr("cy", function(d) {
+            return y(d[0])+5;
+        })
+        .attr("r", 5)
+        .attr("fill",function (d) {
+            return ((d[3]==="") ? "green":"purple");
         });
 
-    d3.select(".chart").append("text")
-        .attr("text-anchor", "middle")
-        .style("font-weight","bold")
-        .style("font-family","monospace")
-        .style("font-size","12pt")// this makes it easy to centre the text as the transform is applied to the anchor
-        .attr("transform", "translate("+ 20 +","+90+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
-        .html("Gross Domestic Product");
 
-    d3.select(".chart").append("text")
-        .attr("text-anchor", "middle")
-        .style("font-weight","bold")
-        .style("font-family","monospace")
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .text(function(d) {
+            return d[2];
+        })
+        .attr("transform",function(d){
+            return "translate("+ (x(d[1])+15) +","+(y(d[0])+15)+")rotate(30)";
+        })
+        .attr("font-size","9pt")
+        .attr("font-family","monospace");
 
-        .style("font-size","14pt")// this makes it easy to centre the text as the transform is applied to the anchor
-        .attr("transform", "translate("+ 38 +","+90+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
-        .html("(x 1000 Billion $)");
-
-    d3.select(".chart")
-        .append("g")
-        .attr("transform","translate(-5,0)")
-        .call(yAxis)
-        .selectAll("text")
-        .style("text-anchor", "end")
-        .style("font-weight","bold")
-        .style("font-size","10pt");
-
-    var chart2 = d3.select(".chart")
-        .append("g")
-        .attr("transform","translate(0,"+(height+5)+")")
-        .call(xAxis)
-        .selectAll("text")
-        .style("text-anchor", "end")
-        .style("font-weight","bold")
-        .style("font-size","10pt");
-
-    bar.append("rect")
-        .attr("width", barWidth)
-        .attr("height",function(d) { return height - y(d);})
-        .attr("y",y)
-        .style("stroke", "black")
-        .style("stroke-width", 1)
-        .attr("fill",function(d) { return colors(d); });
 
 });
+
